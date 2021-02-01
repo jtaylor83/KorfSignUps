@@ -1,9 +1,22 @@
+"""
+for use with https://forms.gle/didNimPz4PpafATD9
+as of 13/11/20 there are no indoor sessions
+author - James Taylor
+"""
 import csv
+
+##############################CURRENTLY MODIFIED FOR WEEK 11 SIGNUPS
+#
+#
+#
+#
+#
+##############################REMEMBER TO CHANGE THIS!!!!!!!!!!!!
 wed = "Wednesday 1-3pm"
 thu = "Thursday 3:30-5pm"
 fri = "Friday 5-6:30pm"
-MAXSIZE_outdoor = 20
-MAXSIZE_indoor = 20
+MAXSIZE_outdoor = 24
+MAXSIZE_indoor = 0
 wedIndoor = []
 wedOutdoor = []
 thuIndoor = []
@@ -23,10 +36,10 @@ with open("Korfball training sign up.csv") as file:
     
     for row in reader:
         outSession = row[1]
-        inSession = row[2]
-        firstTeam = row[3]
-        name = row[4]
-        email = row[5]
+        #inSession = row[2]
+        #firstTeam = row[2]
+        name = row[2]
+        email = row[3]
         
         #check uniqueness
         if email in seen:
@@ -36,9 +49,9 @@ with open("Korfball training sign up.csv") as file:
             emails.append(email)
             names.append(name)
         
-        #allocate friday morning
-        if firstTeam == "Yes":
-            friMorn.append(name)
+        #allocate friday morning - no checks since probably won't hit limit
+        #if firstTeam == "Yes":
+         #   friMorn.append(name)
 
         #allocate outdoor sessions
         #allocate wed afternoon
@@ -50,13 +63,15 @@ with open("Korfball training sign up.csv") as file:
             friEveOutdoor.append(name)
             
         #allocate if both
-        elif outSession == (wed +";"+ fri): 
+        elif outSession == (wed +";"+ fri):
+            wedOutdoor.append(name)
             if len(wedOutdoor) < MAXSIZE_outdoor and len(wedOutdoor) < len(friEveOutdoor):
                 wedOutdoor.append(name)
             elif len(friEveOutdoor) < MAXSIZE_outdoor:
                 friEveOutdoor.append(name)
+            
 
-                
+        """ Can be reinstated once indoor sessions are happening again
         #allocate indoor sessions
         #allocate wed afternoon
         if inSession == wed and (len(wedIndoor) < MAXSIZE_indoor) and not (name in wedOutdoor):
@@ -118,6 +133,7 @@ with open("Korfball training sign up.csv") as file:
                     friEveIndoor.append(name)
                 elif len(thuIndoor) < MAXSIZE_indoor:
                     thuIndoor.append(name)
+        """
             
 
 
@@ -126,25 +142,28 @@ print("\nFriday outdoor\n",friEveOutdoor)
 num = len(wedOutdoor)+ len(friEveOutdoor)
 print(num)
 
+"""
 print("\nWednesday Indoor\n",wedIndoor)
 print("\nThursday Indoor\n",thuIndoor)
 print("\nFriday Indoor\n",friEveIndoor)
 num = len(wedIndoor) + len(thuIndoor) + len(friEveIndoor)
 print(num)
-
+"""
 print("\n\n\n")
-for name in names:
+for name in names: #if someone was allocated no sessions it could indicate an error
+    """
     if name in list(set().union(wedOutdoor,friEveOutdoor)):
         if name not in list(set().union(wedIndoor,thuIndoor,friEveIndoor)):
             print(name,"got no indoor sessions")
     if name in list(set().union(wedIndoor,thuIndoor,friEveIndoor)):
         if name not in list(set().union(wedOutdoor,friEveOutdoor)):
             print(name,"got no outdoor sessions")
+    """
     if name not in list(set().union(wedOutdoor,friEveOutdoor,wedIndoor,thuIndoor,friEveIndoor)):
         print(name,"got nothing :(((")    
         
 
-            
+#writes data to csv files   
 with open("WednesdayOutdoor.csv","w") as file:
         writer = csv.writer(file)
         for row in wedOutdoor:
@@ -157,7 +176,8 @@ with open("FridayOutdoor.csv","w") as file:
         for row in friEveOutdoor:
             file.write(row)
             file.write("\n")
-file.close()           
+file.close()
+"""
 with open("WednesdayIndoor.csv","w") as file:
         writer = csv.writer(file)
         for row in wedIndoor:
@@ -177,6 +197,7 @@ with open("FridayIndoor.csv","w") as file:
             file.write(row)
             file.write("\n")
 file.close()
+"""
 
 with open("Emails.csv","w") as file:
     writer = csv.writer(file)
@@ -191,12 +212,12 @@ with open("Names.csv","w") as file:
           file.write(name)
           file.write("\n")
 file.close()
-
+"""
 with open("FridayMorning.csv","w") as file:
     writer = csv.writer(file)
     for name in friMorn:
         file.write(name)
-        file.write("\n")
+        file.write("\n")"""
 
         
             
