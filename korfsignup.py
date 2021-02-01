@@ -1,3 +1,6 @@
+#https://github.com/jtaylor83/KorfSignUps/blob/main/korfsignup.py
+#for use with https://forms.gle/didNimPz4PpafATD9
+#author - James Taylor
 import csv
 wed = "Wednesday 1-3pm"
 thu = "Thursday 3:30-5pm"
